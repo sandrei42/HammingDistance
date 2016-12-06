@@ -6,10 +6,19 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HammingDistanceLib", "HammingDistanceLib\HammingDistanceLib.vcxproj", "{2C9FD80A-3BAE-45FD-9FAF-8D3488E1715C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IntegrationTests", "IntegrationTests\IntegrationTests.vcxproj", "{3D14B5DF-A988-4091-8908-5217B07A7882}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2C9FD80A-3BAE-45FD-9FAF-8D3488E1715C} = {2C9FD80A-3BAE-45FD-9FAF-8D3488E1715C}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StringTool", "StringTool\StringTool.vcxproj", "{47891872-01AA-4B91-A32F-03FA2C560AF6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2C9FD80A-3BAE-45FD-9FAF-8D3488E1715C} = {2C9FD80A-3BAE-45FD-9FAF-8D3488E1715C}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests", "UnitTests\UnitTests.vcxproj", "{6BEAAA9F-B2A2-4028-A74F-6AADF57E92DB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2C9FD80A-3BAE-45FD-9FAF-8D3488E1715C} = {2C9FD80A-3BAE-45FD-9FAF-8D3488E1715C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
