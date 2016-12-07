@@ -5,5 +5,8 @@
 
 TEST_CASE("Hamming distance is 42", "[basic]")
 {
-	REQUIRE(hammingDistance() == 42);
+	std::string first("Andrei");
+	std::string second("Andrei");
+
+	REQUIRE(HammingDist::hammingDistance(first, second) == 0);
 }

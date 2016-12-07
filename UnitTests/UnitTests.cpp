@@ -5,5 +5,7 @@
 
 TEST_CASE("Hamming distance is 42", "[basic]")
 {
-	REQUIRE(hammingDistance() == 42);
+	HammingDist::blob firstBlob = { 3 };
+	HammingDist::blob secondBlob = { 0 };
+	REQUIRE( HammingDist::hammingDistance(firstBlob, secondBlob) == 0 );
 }
