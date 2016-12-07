@@ -4,6 +4,6 @@
 
 int main(int argc, char** argv)
 {
-	std::cout << "Hamming distance: " << hammingDistance() << std::endl;
+	std::cout << "Hamming distance: " << HammingDist::hammingDistance( "a" , "b" ) << std::endl;
 	return 0;
 }
