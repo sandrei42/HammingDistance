@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 
         std::cout << "Hamming distance: " << HammingDist::hammingDistance(first, second) << std::endl;
     }
-    catch (HammingDist::HammingDistEx& e)
+    catch (HammingDist::HammingDistEx&)
     {
         std::cout << "Error: Input strings are not the same length!" << std::endl;
         return 1;

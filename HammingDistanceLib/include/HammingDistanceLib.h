@@ -15,7 +15,7 @@
 namespace HammingDist
 {
 
-typedef char blobType;					///< Underlining type for the memory blob
+typedef char blobType;                  ///< Underlining type for the memory blob
 typedef std::valarray< blobType > blob; ///< A memory blob
 typedef unsigned long long distValue;   ///< Output value for the hamming distance
 
@@ -41,11 +41,11 @@ struct HammingDistEx : public std::exception
 // @param     const blob & firstBlob  - first memory blob for comparison
 // @param     const blob & secondBlob - second memory blob for comparison
 // @param     std::size_t groupSize   - grouping size multiplyer
-//										Eg: groupSize of 1 will group the result every 8 bits
-//											groupSize of 4 will group the result every 32 bits
+//                                      Eg: groupSize of 1 will group the result every 8 bits
+//                                          groupSize of 4 will group the result every 32 bits
 // @returns   std::vector<HammingDist::distValue> - vector containg the group results,
-//													the size of the vector will be size of the blob/groupSize
-// @throws	  HammingDistEx - if the blobs are not equal or the grouping value doesn't exactly split the input
+//                                                  the size of the vector will be size of the blob/groupSize
+// @throws    HammingDistEx - if the blobs are not equal or the grouping value doesn't exactly split the input
 //************************************
 HDISTANCELIB_API std::vector<distValue> hammingDistance(const blob& firstBlob, const blob& secondBlob, std::size_t groupSize);
 
@@ -54,16 +54,16 @@ HDISTANCELIB_API std::vector<distValue> hammingDistance(const blob& firstBlob, c
 // FullName:  HammingDist::hammingDistance
 // Access:    public 
 // Description: Computes the bit wise Hamming distance between two blobs of memory
-//				Hamming distance represents the number of bits that are different between the two blobs
-//				Eg:   1010010100100 - first blob
-//					  0110010000100 - second blob
-//		              1100000100000 - difference (3 bits differ)
-//					  Hamming distance: 3
+//              Hamming distance represents the number of bits that are different between the two blobs
+//              Eg:   1010010100100 - first blob
+//                    0110010000100 - second blob
+//                    1100000100000 - difference (3 bits differ)
+//                    Hamming distance: 3
 // @param     const blob & firstBlob  - first memory blob for comparison
 // @param     const blob & secondBlob - second memory blob for comparison
 // @returns   distValue - number of bits which differ between the first and second blobs
-//						  0 if the blobs are bitwise equal
-// @throws	  HammingDistEx - if the blobs are not equal
+//                        0 if the blobs are bitwise equal
+// @throws    HammingDistEx - if the blobs are not equal
 //************************************
 HDISTANCELIB_API distValue hammingDistance(const blob& firstBlob, const blob& secondBlob);
 
@@ -72,7 +72,7 @@ HDISTANCELIB_API distValue hammingDistance(const blob& firstBlob, const blob& se
 // FullName:  HammingDist::getTotalGroupedDifference
 // Access:    public 
 // Description: Convenience function to compute the total distance of grouped hamming distance result
-//				It also reduces the distance value per group to 1
+//              It also reduces the distance value per group to 1
 // @param     const std::vector<distValue> & distVec - distance vector
 // @returns   distValue - total computed distance
 //************************************
@@ -87,19 +87,41 @@ HDISTANCELIB_API distValue getTotalGroupedDifference(const std::vector<distValue
 // @returns   distValue - total computed distance
 //************************************
 HDISTANCELIB_API distValue getTotalDifference(const std::vector<distValue>& distVec);
- 
+
 //************************************
 // Method:    hammingDistance
 // FullName:  HammingDist::hammingDistance
 // Access:    public 
 // Description: Convenience function to compute the number of characters that are different between two strings
-//				 NOTE: Assumes ASCII characters, UTF-8 strings are not supported
-// @param     const std::string & firstBlob	 - first string
+//              NOTE: Assumes ASCII characters, UTF-8 strings are not supported
+// @param     const std::string & firstBlob  - first string
 // @param     const std::string & secondBlob - second string
 // @returns   distValue - number of characters which are different
-// @throws	  HammingDistEx - if the strings are not equal
+// @throws    HammingDistEx - if the strings are not equal
 //************************************
 HDISTANCELIB_API distValue hammingDistance(const std::string& firstBlob, const std::string& secondBlob);
+
+
+//************************************
+// Method:    hammingDistance
+// FullName:  HammingDist::hammingDistance
+// Access:    public 
+// Description: Convenience function to compute the number of elements that are different between two vectors
+// @param     const std::vector<T> & first  - first vector to compare
+// @param     const std::vector<T> & second - second vector to compare
+// @returns   distValue - number of elements which are different
+// @throws    HammingDistEx - if the strings are not equal
+//************************************
+template< typename T >
+distValue hammingDistance(const std::vector<T>& first, const std::vector<T>& second)
+{
+    size_t group = sizeof(T);
+
+    HammingDist::blob firstBlob(reinterpret_cast<const HammingDist::blobType*>(&first[0]), first.size()*group);
+    HammingDist::blob secondBlob(reinterpret_cast<const HammingDist::blobType*>(&second[0]), second.size()*group);
+
+    return getTotalGroupedDifference(HammingDist::hammingDistance(firstBlob, secondBlob, group));
+}
 
 }
 

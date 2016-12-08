@@ -8,14 +8,14 @@
 
 TEST_CASE("Hamming distance", "[basic]")
 {
-    SECTION("empty values")
+    SECTION("Empty values")
     {
         HammingDist::blob firstBlob;
         HammingDist::blob secondBlob;
         REQUIRE(HammingDist::hammingDistance(firstBlob, secondBlob) == 0);
     }
 
-    SECTION("one value simple test")
+    SECTION("One value simple test")
     {
         HammingDist::blob firstBlob = { 42 };
         HammingDist::blob secondBlob = { 42 };
@@ -26,7 +26,7 @@ TEST_CASE("Hamming distance", "[basic]")
         REQUIRE(HammingDist::hammingDistance(secondBlob, firstBlob) != 0);
     }
 
-    SECTION("One value, cheking bits")
+    SECTION("One value, checking bits")
     {
         HammingDist::blob firstBlob = { 0 };
         char val = 0;
@@ -39,7 +39,7 @@ TEST_CASE("Hamming distance", "[basic]")
         }
     }
 
-    SECTION("One value, cheking bits, rotate one")
+    SECTION("One value, checking bits, rotate one")
     {
         HammingDist::blob firstBlob = { 0 };
         char val = 1;
@@ -181,7 +181,7 @@ TEST_CASE("Hamming distance on int values", "[group][int]")
     }
 }
 
-TEST_CASE("Hamming distance grouping erros", "[group][exceptions]")
+TEST_CASE("Hamming distance grouping, erros", "[group][exceptions]")
 {
     HammingDist::blob firstBlob = { 1 , 21 };
     HammingDist::blob secondBlob = { 0 , 21 , 43 };
