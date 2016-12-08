@@ -44,3 +44,4 @@ A Simple Hamming distance C++ library
 * [ ] Remove hard coded boost dependency
 * [ ] Integration tests for StringTool
 * [ ] Add more convenience functions
+* [ ] Add UTF-8 support for string tool
