@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 	std::string second;
 	try
 	{
-		po::options_description desc("Allowed options");
+		po::options_description desc("Allowed options, Only ANSI characters are supported");
 		desc.add_options()
 			("help", "produce help message")
 			("first,f", po::value<std::string>(&first)->required(), "first string to compare to")
@@ -28,6 +28,8 @@ int main(int argc, char** argv)
 			std::cout << desc << std::endl;
 			return 0;
 		}
+
+		std::cout << "Hamming distance: " << HammingDist::hammingDistance(first, second) << std::endl;
 	}
 	catch (std::exception& e)
 	{
@@ -40,6 +42,5 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	std::cout << "Hamming distance: " << HammingDist::hammingDistance( first , second ) << std::endl;
 	return 0;
 }

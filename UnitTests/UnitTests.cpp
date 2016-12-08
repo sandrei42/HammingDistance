@@ -8,6 +8,13 @@
 
 TEST_CASE("Hamming distance", "[basic]")
 {
+	SECTION("empty values")
+	{
+		HammingDist::blob firstBlob;
+		HammingDist::blob secondBlob;
+		REQUIRE(HammingDist::hammingDistance(firstBlob, secondBlob) == 0);
+	}
+
 	SECTION("one value simple test")
 	{
 		HammingDist::blob firstBlob = { 42 };
@@ -87,9 +94,46 @@ TEST_CASE("Hamming distance random", "[random]")
 	}
 }
 
-//ToDo Negative testing
+TEST_CASE("Hamming distance errors", "[exceptions]")
+{
+	SECTION("Simple size difference")
+	{
+		HammingDist::blob firstBlob = { 42 };
+		HammingDist::blob secondBlob = { 42 , 41 };
+		REQUIRE_THROWS(HammingDist::hammingDistance(firstBlob, secondBlob));
+	}
 
-TEST_CASE("Hamming distance grouping", "[basic]")
+	SECTION("Random sizes")
+	{
+		std::default_random_engine generator;
+		std::uniform_int_distribution<int> distribution(0, 255);
+		auto dice = std::bind(distribution, generator);
+
+		size_t elements = dice();
+
+		std::vector<HammingDist::blobType> tempData;
+		for (size_t elem = 0; elem < elements; ++elem)
+		{
+			tempData.push_back(dice());
+		}
+		HammingDist::blob first(&tempData[0], elements);
+
+		do
+		{
+			elements = dice();
+		} while (elements == first.size());
+		tempData.clear();
+		for (size_t elem = 0; elem < elements; ++elem)
+		{
+			tempData.push_back(dice());
+		}
+		HammingDist::blob second(&tempData[0], elements);
+
+		REQUIRE_THROWS(HammingDist::hammingDistance(first, second));
+	}
+}
+
+TEST_CASE("Hamming distance grouping", "[group][basic]")
 {
 	HammingDist::blob firstBlob = { 1 , 21 };
 	HammingDist::blob secondBlob = { 0 , 21 };
@@ -99,3 +143,50 @@ TEST_CASE("Hamming distance grouping", "[basic]")
 	output = HammingDist::hammingDistance(firstBlob, secondBlob, 2);
 	REQUIRE(output[0] == 1);
 }
+
+TEST_CASE("Hamming distance on int values", "[group][int]")
+{
+	SECTION("Identical vectors")
+	{
+		std::vector<int> first = { 0, 1, 2, 3, 4, 5 };
+		std::vector<int> second = { 0, 1, 2, 3, 4, 5 };
+
+		size_t group = sizeof(int);
+
+		HammingDist::blob firstBlob(reinterpret_cast<HammingDist::blobType*>(&first[0]), first.size()*group);
+		HammingDist::blob secondBlob(reinterpret_cast<HammingDist::blobType*>(&second[0]), second.size()*group);
+
+		std::vector<HammingDist::distValue> output = HammingDist::hammingDistance(firstBlob, secondBlob, group);
+
+		REQUIRE(output.size() == first.size());
+		REQUIRE(HammingDist::getTotalDifference(output) == 0);
+		REQUIRE(HammingDist::getTotalGroupedDifference(output) == 0);
+	}
+
+	SECTION("Different vectors")
+	{
+		std::vector<int> first = { 0, 1, 2, 0, 4, 5 };
+		std::vector<int> second = { 0, 1, 2, 3, 4, 5 };
+
+		size_t group = sizeof(int);
+
+		HammingDist::blob firstBlob(reinterpret_cast<HammingDist::blobType*>(&first[0]), first.size()*group);
+		HammingDist::blob secondBlob(reinterpret_cast<HammingDist::blobType*>(&second[0]), second.size()*group);
+
+		std::vector<HammingDist::distValue> output = HammingDist::hammingDistance(firstBlob, secondBlob, group);
+
+		REQUIRE(output.size() == first.size());
+		REQUIRE(HammingDist::getTotalDifference(output) == 2);
+		REQUIRE(HammingDist::getTotalGroupedDifference(output) == 1);
+	}
+}
+
+TEST_CASE("Hamming distance grouping erros", "[group][exceptions]")
+{
+	HammingDist::blob firstBlob = { 1 , 21 };
+	HammingDist::blob secondBlob = { 0 , 21 , 43 };
+	REQUIRE_THROWS( HammingDist::hammingDistance(firstBlob, secondBlob, 1) );
+	secondBlob = firstBlob;
+	REQUIRE_THROWS( HammingDist::hammingDistance(firstBlob, secondBlob, 3) );
+}
+

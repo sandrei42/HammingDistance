@@ -7,6 +7,7 @@
 #include <valarray>
 #include <string>
 #include <vector>
+#include <exception>
 
 namespace HammingDist
 {
@@ -14,6 +15,14 @@ namespace HammingDist
 typedef char blobType;
 typedef std::valarray< blobType > blob;
 typedef unsigned long long distValue;
+
+struct HammingDistEx : public std::exception
+{
+	const char* what() const noexcept
+	{
+		return "Error: Input blobs are of different sizes, or bad grouping size!";
+	}
+};
 
 HDISTANCELIB_API std::vector<distValue> hammingDistance(const blob& firstBlob, const blob& secondBlob, std::size_t groupSize);
 

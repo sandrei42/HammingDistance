@@ -9,33 +9,30 @@ using namespace HammingDist;
 
 HDISTANCELIB_API std::vector<distValue> HammingDist::hammingDistance(const blob& firstBlob, const blob& secondBlob, std::size_t groupSize)
 {
-	std::vector<distValue> output;
-
 	if (firstBlob.size() != secondBlob.size() || (firstBlob.size() % groupSize) != 0)
 	{
-		output.push_back(-1);
-		return output;
+		throw HammingDistEx();
 	}
 
+	std::vector<distValue> output;
+	output.reserve(firstBlob.size() / groupSize);
 	for (size_t i = 0; i < firstBlob.size(); i += groupSize)
 	{
 		std::slice slice(i, groupSize, 1);
 		output.push_back( hammingDistance(firstBlob[slice], secondBlob[slice]) );
 	}
-
 	return output;
 }
 
 HDISTANCELIB_API distValue HammingDist::hammingDistance(const blob& firstBlob, const blob& secondBlob)
 {
-	distValue distance = 0;
 	if (firstBlob.size() != secondBlob.size())
 	{
-		return -1;
+		throw HammingDistEx();
 	}
 
 	blob outBlob = firstBlob ^ secondBlob;
-
+	distValue distance = 0;
 	for (const blobType& e : outBlob)
 	{
 		std::bitset<CHAR_BIT> element(e);
