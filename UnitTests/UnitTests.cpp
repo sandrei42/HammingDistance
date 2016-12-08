@@ -189,4 +189,3 @@ TEST_CASE("Hamming distance grouping erros", "[group][exceptions]")
 	secondBlob = firstBlob;
 	REQUIRE_THROWS( HammingDist::hammingDistance(firstBlob, secondBlob, 3) );
 }
-
