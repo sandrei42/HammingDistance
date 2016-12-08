@@ -21,15 +21,21 @@ int main(int argc, char** argv)
 
         po::variables_map vm;
         po::store(po::parse_command_line(argc, argv, desc), vm);
-        po::notify(vm);
 
         if (vm.count("help"))
         {
             std::cout << desc << std::endl;
             return 0;
         }
+        
+        po::notify(vm);
 
         std::cout << "Hamming distance: " << HammingDist::hammingDistance(first, second) << std::endl;
+    }
+    catch (HammingDist::HammingDistEx& e)
+    {
+        std::cout << "Error: Input strings are not the same length!" << std::endl;
+        return 1;
     }
     catch (std::exception& e)
     {

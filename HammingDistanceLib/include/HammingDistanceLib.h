@@ -29,7 +29,7 @@ struct HammingDistEx : public std::exception
 {
     const char* what() const noexcept
     {
-        return "Error: Input blobs are of different sizes, or bad grouping size!";
+        return "Input blobs are of different sizes, or bad grouping size!";
     }
 };
 
