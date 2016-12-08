@@ -21,8 +21,8 @@ A Simple Hamming distance C++ library
 6. Check all configurations and platforms
 5. Build solution
 
-##HammingDistanceLib
-* offers two functions `hammingDistance' under the `HammingDist` namespace
+###HammingDistanceLib
+* offers two functions `hammingDistance` under the `HammingDist` namespace
 * Hamming distance is computed per bits
 * Assumes the blobs are identical in size, if they differ an exception is thrown
 * Grouping is offered so the Hamming distance can be computed at an arbitrary number of bytes
@@ -38,8 +38,7 @@ A Simple Hamming distance C++ library
 * Command line tool which takes as input two ANSI strings, and outputs the hamming distance in characters.
 * Other encodings are not supported
 
-
-TODOs:
+####TODOs:
 * [ ] Add CMake or makefile rules for cross compiling
 * [ ] Create an install target
 * [ ] Remove hard coded boost dependency
