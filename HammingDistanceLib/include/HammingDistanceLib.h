@@ -27,10 +27,10 @@ typedef unsigned long long distValue;   ///< Output value for the hamming distan
 //************************************
 struct HammingDistEx : public std::exception
 {
-	const char* what() const noexcept
-	{
-		return "Error: Input blobs are of different sizes, or bad grouping size!";
-	}
+    const char* what() const noexcept
+    {
+        return "Error: Input blobs are of different sizes, or bad grouping size!";
+    }
 };
 
 //************************************
